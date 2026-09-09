@@ -25,7 +25,7 @@ app.post('/tasks', (req, res) => {
   const newTask = {
     id: nextId++,
     titre: titre.trim(),
-    complete: false
+    completed: false
   };
 
   tasks.push(newTask);
@@ -37,7 +37,15 @@ app.post('/tasks', (req, res) => {
  * Récupère la liste complète des tâches
  */
 app.get('/tasks', (req, res) => {
-  res.status(200).json(tasks);
+  if (req.query.completed){
+    if (req.query.completed === 'true') {
+      return res.status(200).json(tasks.filter((t) => t.completed === true));
+    } else {
+      return res.status(200).json(tasks.filter((t) => t.completed === false));
+    } 
+  } else {
+    return res.status(200).json(tasks);
+  }
 });
 
 /**
