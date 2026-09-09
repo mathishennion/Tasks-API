@@ -88,6 +88,29 @@ app.delete('/tasks/:id', (req, res) => {
   res.status(200).json({ message: 'Tâche supprimée.', task: deleted });
 });
 
+/**Nouvelle fonctionnalité 1 (pour l'étudiant A)
+§ Ajouter une fonctionnalité permettant de marquer une tâche comme
+complétée/non complétée.
+§ Route suggérée : PATCH /tasks/:id/completed
+*/
+app.patch('/tasks/:id/completed', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const task = tasks.find((t) => t.id === id);
+
+  if (!task) {
+    return res.status(404).json({ error: `Aucune tâche trouvée avec l'id ${id}.` });
+  }
+
+  const { complete } = req.body;
+
+  if (typeof complete !== 'boolean') {
+    return res.status(400).json({ error: 'Le champ "complete" doit être un booléen.' });
+  }
+
+  task.complete = complete;
+  res.status(200).json(task);
+});
+
 // Route de vérification que le serveur tourne
 app.get('/', (req, res) => {
   res.send('Tasks API en ligne. Voir /tasks');
