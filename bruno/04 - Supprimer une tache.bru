@@ -1,0 +1,17 @@
+meta {
+  name: 04 - Supprimer une tache
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:3000/tasks
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "2"
+  }
+}
